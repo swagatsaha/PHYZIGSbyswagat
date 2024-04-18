@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHYZIGS by Swagat - Online Exam Portal</title>
+    <style>
+        /* CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc; /* Beige */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .header {
+            background-color: #800000; /* Brownish Maroon */
+            color: #fff;
+            padding: 20px;
+            border: #ecedf0;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 24px;
+            margin-top: -705px;
+            position: relative;
+            z-index: 9999;
+        }
+        .topics {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 0 20px;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background-color: #800000; /* Brownish Maroon */
+            z-index: 9999;
+        }
+        .topic {
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            width: calc(33.33% - 10px); /* Adjust for margin */
+        }
+        .modal {
+            background-color: #7b3d1e; /* Darker Brownish Maroon */
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            z-index: 9998; /* Ensure modal appears below header and topics */
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+        }
+        .modal.active {
+            display: block;
+        }
+        .modal p {
+            margin-top: 0;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        .option {
+            margin-bottom: 10px;
+        }
+        .option input[type="radio"] {
+            display: none;
+        }
+        .option label {
+            background-color: #fff;
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+        }
+        .option label:hover {
+            background-color: #ccc;
+        }
+        .option input[type="radio"]:checked + label {
+            background-color: #800000; /* Brownish Maroon */
+            color: #fff;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #800000; /* Brownish Maroon */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #500000; /* Darker Maroon */
+        }
+        .btn-container.correct {
+            background-color: green;
+        }
+        .btn-container.wrong {
+            background-color: red;
+        }
+        .timer {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 200px;
+            margin-top: 500px;
+            margin-left: 300px;
+            margin-right: 175px;
+
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #800000; /* Brownish Maroon */
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        /* Results Modal Styling */
+        .results-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .results-content {
+            background-color: #fff; /* White background */
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .results-content h2 {
+            margin-top: 0;
+            color: #800000; /* Brownish Maroon */
+        }
+
+        .results-content p {
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background-color: #800000; /* Brownish Maroon */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            background-color: #500000; /* Darker Maroon */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">PHYZIGS by Swagat - Online Exam Portal</div>
+
+    <!-- Topic Selection -->
+    <div class="topics">
+        <div class="topic">Topic 1: Physics</div>
+        <div class="topic">Topic 2: Chemistry</div>
+        <div class="topic">Topic 3: Biology</div>
+    </div>
+
+    <!-- Timer -->
+    <div class="timer" id="timer">10:00</div>
+
+    <!-- First Floating Window (Question 1) -->
+    <div class="modal active" id="question1" style="top: 120px;">
+        <p>Question 1: What is the capital of France?</p>
+        <div class="options">
+            <div class="option">
+                <input type="radio" id="option1" name="answer1" value="Paris">
+                <label for="option1">Paris</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option2" name="answer1" value="London">
+                <label for="option2">London</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option3" name="answer1" value="Berlin">
+                <label for="option3">Berlin</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option4" name="answer1" value="Madrid">
+                <label for="option4">Madrid</label>
+            </div>
+        </div>
+        <div class="btn-container" id="btnContainer1">
+            <button class="btn" onclick="showNextQuestion('question2')">Next</button>
+        </div>
+    </div>
+
+    <!-- Second Floating Window (Question 2) -->
+    <div class="modal" id="question2" style="top: 120px;">
+        <p>Question 2: What is the capital of Spain?</p>
+        <div class="options">
+            <div class="option">
+                <input type="radio" id="option5" name="answer2" value="Paris">
+                <label for="option5">Paris</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option6" name="answer2" value="London">
+                <label for="option6">London</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option7" name="answer2" value="Madrid">
+                <label for="option7">Madrid</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option8" name="answer2" value="Berlin">
+                <label for="option8">Berlin</label>
+            </div>
+        </div>
+        <div class="btn-container" id="btnContainer2">
+            <button class="btn" onclick="showNextQuestion('question3')">Next</button>
+            <button class="btn" onclick="showNextQuestion('question1')">Previous</button>
+        </div>
+    </div>
+
+    <!-- Third Floating Window (Question 3) -->
+    <div class="modal" id="question3" style="top: 120px;">
+        <p>Question 3: What is the capital of Italy?</p>
+        <div class="options">
+            <div class="option">
+                <input type="radio" id="option9" name="answer3" value="Paris">
+                <label for="option9">Paris</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option10" name="answer3" value="Rome">
+                <label for="option10">Rome</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option11" name="answer3" value="Madrid">
+                <label for="option11">Madrid</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option12" name="answer3" value="Berlin">
+                <label for="option12">Berlin</label>
+            </div>
+        </div>
+        <div class="btn-container" id="btnContainer3">
+            <button class="btn" onclick="openResultsModal()">Submit</button>
+            <button class="btn" onclick="showNextQuestion('question2')">Previous</button>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="results-modal" id="resultsModal">
+        <div class="results-content" id="resultsContent">
+            <!-- Results content will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        var timerElement = document.getElementById('timer');
+        var totalTime = 10; // 10 seconds for testing
+        var minutes, seconds;
+        var interval;
+        var correctAnswers = 0;
+
+        function startTimer() {
+            interval = setInterval(function () {
+                minutes = Math.floor(totalTime / 60);
+                seconds = totalTime % 60;
+
+                var formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+                var formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+
+                timerElement.innerText = formattedMinutes + ':' + formattedSeconds;
+
+                if (totalTime <= 0) {
+                    clearInterval(interval);
+                    openResultsModal();
+                } else {
+                    totalTime--;
+                }
+            }, 1000);
+        }
+
+        function showNextQuestion(questionId) {
+            var currentQuestion = document.querySelector('.modal.active');
+            currentQuestion.classList.remove('active');
+
+            var nextQuestion = document.getElementById(questionId);
+            nextQuestion.classList.add('active');
+        }
+
+        function openResultsModal() {
+            var resultsModal = document.getElementById('resultsModal');
+            resultsModal.style.display = 'flex';
+
+            var answer1 = document.querySelector('input[name="answer1"]:checked');
+            var answer2 = document.querySelector('input[name="answer2"]:checked');
+            var answer3 = document.querySelector('input[name="answer3"]:checked');
+
+            if (answer1 && answer1.value === 'Paris') correctAnswers++;
+            if (answer2 && answer2.value === 'Madrid') correctAnswers++;
+            if (answer3 && answer3.value === 'Rome') correctAnswers++;
+
+            var resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = '<h2>Exam Completed!</h2>' +
+                                        '<p>Your results:</p>' +
+                                        '<p>Correctly Answered Questions: ' + correctAnswers + ' out of 3</p>' +
+                                        '<button class="btn" onclick="returnToHomePage()">Return to Home Page</button>' +
+                                        '<button class="btn" onclick="giveTestAgain()">Give Test Again</button>';
+        }
+
+        function closeResultsModal() {
+            var resultsModal = document.getElementById('resultsModal');
+            resultsModal.style.display = 'none';
+        }
+
+        function returnToHomePage() {
+            // Redirect to home page or perform necessary actions
+            alert("Redirecting to home page...");
+        }
+
+        function giveTestAgain() {
+            // Reload or reset the test to start again
+            alert("Refreshing the page to give the test again...");
+            location.reload();
+        }
+
+        startTimer();
+    </script>
+</body>
+</html>

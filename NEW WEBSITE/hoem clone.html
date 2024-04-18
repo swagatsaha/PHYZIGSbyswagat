@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Home</title>
+
+   <!-- Font Awesome CDN link -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+
+   <!-- Custom CSS file link -->
+   <link rel="stylesheet" href="css/style.css">
+
+   <style>
+      body {
+         font-family: Arial, sans-serif;
+         margin: 0;
+         padding: 0;
+         background-color: #8b0000; /* Maroonish brown */
+         color: black; /* Black font color */
+         display: flex;
+         flex-direction: column;
+         min-height: 100vh;
+      }
+
+      /* Header Styles */
+      .header {
+         background-color: beige; /* Beige */
+         color: #8b0000; /* Maroonish brown */
+         padding: 20px;
+         text-align: center;
+      }
+
+      .header .logo {
+         color: #8b0000; /* Maroonish brown */
+         text-decoration: none;
+         font-size: 24px;
+         font-weight: bold;
+      }
+
+      .header .search-form {
+         margin-top: 20px;
+      }
+
+      .header .search-form input[type="text"] {
+         padding: 10px;
+         width: 300px;
+         border: none;
+         border-radius: 5px;
+         font-size: 16px;
+      }
+
+      .header .search-form button {
+         padding: 10px 20px;
+         background-color: #8b0000; /* Maroonish brown */
+         color: beige;
+         border: none;
+         border-radius: 5px;
+         cursor: pointer;
+         font-size: 16px;
+         margin-left: 10px;
+      }
+
+      /* Main Content Styles */
+      .main-content {
+         padding: 20px;
+         text-align: center;
+         flex: 1; /* Added to fill remaining space */
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+      }
+
+      .course-container {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+      }
+
+      .course {
+         background-color: #ffe4c4; /* Peach */
+         border-radius: 10px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added box shadow */
+         margin: 20px;
+         padding: 20px;
+         width: 300px;
+         text-align: center;
+         position: relative; /* Added for pseudo-element */
+         overflow: hidden; /* Hide overflowing image */
+      }
+
+      .course:before {
+         content: '';
+         position: absolute;
+         top: -10px;
+         left: -10px;
+         right: -10px;
+         bottom: -10px;
+         background: #8b0000; /* Maroonish brown */
+         border-radius: 15px;
+         z-index: -1;
+      }
+
+      .course h3 {
+         font-size: 24px;
+         color: black; /* Black font color */
+         margin-bottom: 10px;
+         position: relative; /* Added for stacking */
+         z-index: 1; /* Added for stacking */
+      }
+
+      .course img {
+         max-width: 100%;
+         height: auto;
+         border-radius: 10px;
+         margin-bottom: 20px;
+      }
+
+      .course .btn {
+         background-color: #8b0000; /* Maroonish brown */
+         color: beige;
+         padding: 10px 20px;
+         border: none;
+         border-radius: 5px;
+         cursor: pointer;
+         text-decoration: none;
+         transition: background-color 0.3s ease;
+         position: relative; /* Added for stacking */
+         z-index: 1; /* Added for stacking */
+      }
+
+      .course .btn:hover {
+         background-color: #800000; /* Darker shade for hover effect */
+      }
+
+      /* Footer Styles */
+      .footer {
+         background-color: #8b0000; /* Maroonish brown */
+         color: beige;
+         padding: 20px;
+         text-align: center;
+         width: 100%;
+      }
+
+      .footer span {
+         font-weight: bold;
+      }
+   </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+   <a href="home.html" class="logo">PHYZIGS by Swagat</a>
+   <form action="search.html" method="post" class="search-form">
+      <input type="text" name="search_box" required placeholder="Search courses..." maxlength="100">
+      <button type="submit">Search</button>
+   </form>
+</header>
+
+<!-- Main Content -->
+<div class="main-content">
+   <div class="course-container">
+      <div class="course">
+         <h3>Class 8, 9, 10</h3>
+         <img src="C:\Users\91707\OneDrive\Desktop\Pictures\Screenshots\Screenshot (479).png" alt="Class 8, 9, 10 Image">
+         <a href="class8_9_10_playlist.html" class="btn">View Playlist</a>
+      </div>
+      <div class="course">
+         <h3>Class 11, 12</h3>
+         <img src="C:\Users\91707\OneDrive\Desktop\Pictures\Screenshots\Screenshot (481).png" alt="Class 11, 12 Image">
+         <a href="class11_12_playlist.html" class="btn">View Playlist</a>
+      </div>
+      <div class="course">
+         <h3>BSc Semesters</h3>
+         <img src="C:\Users\91707\OneDrive\Desktop\Pictures\Screenshots\Screenshot (478).png" alt="BSc Semesters Image">
+         <a href="bsc_semesters_playlist.html" class="btn">View Playlist</a>
+      </div>
+      <div class="course">
+         <h3>Take a Test</h3>
+         <img src="C:\Users\91707\Downloads\photo-1580974852861-c381510bc98a.jpg" alt="Test Image">
+         <a href="MCQ FINAL.HTML" class="btn">Take Test</a>
+      </div>
+      <div class="course">
+         <h3>Notes Library</h3>
+         <img src="C:\Users\91707\OneDrive\Desktop\Pictures\Screenshots\Screenshot 2024-04-16 234825.png" alt="Notes Library Image">
+         <a href="notes_library.html" class="btn">Explore Notes</a>
+      </div>
+   </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+   &copy; Copyright @ 2022 by <span>PHYZIGS</span> | All rights reserved!
+</footer>
+
+</body>
+</html>

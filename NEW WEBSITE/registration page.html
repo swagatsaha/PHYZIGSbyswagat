@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: beige;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #8b0000; /* Brownish maroon color */
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #8b0000; /* Brownish maroon color */
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #8b0000; /* Brownish maroon color */
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #8b0000; /* Brownish maroon color */
+            color: beige;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #800000; /* Darker shade for hover effect */
+        }
+
+        .login-without-approval {
+            text-align: center;
+            color: #666;
+        }
+
+        .error {
+            color: #FF0000;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name"><br>
+            <label for="phone">Phone Number:</label><br>
+            <input type="text" id="phone" name="phone"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br>
+            <label for="confirmPassword">Confirm Password:</label><br>
+            <input type="password" id="confirmPassword" name="confirmPassword"><br>
+            <p class="login-without-approval">You will use this number and password to directly login without any approval.</p><br>
+            <input type="submit" value="Login">
+            <div id="error-message" class="error"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Retrieve name, phone number, password, and confirm password from the form
+            var name = document.getElementById("name").value;
+            var phone = document.getElementById("phone").value;
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+
+            // Check if name, phone number, password, and confirm password are not blank
+            if (name.trim() === "" || phone.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
+                displayErrorMessage("Please enter your name, phone number, password, and confirm password.");
+                return;
+            }
+
+            // Check if the entered phone number has exactly 10 digits
+            if (!(/^\d{10}$/.test(phone))) {
+                displayErrorMessage("Please enter a 10-digit phone number.");
+                return;
+            }
+
+            // Check if password meets complexity requirements
+            if (!isPasswordValid(password)) {
+                displayErrorMessage("Password must contain at least one uppercase letter, one lowercase letter, one number, one symbol, and be at least 8 characters long.");
+                return;
+            }
+
+            // Check if password and confirm password match
+            if (password !== confirmPassword) {
+                displayErrorMessage("Passwords do not match.");
+                return;
+            }
+
+            // Check if the phone number and password combination is previously used
+            var loggedData = JSON.parse(localStorage.getItem("loggedData")) || [];
+            var found = false;
+            for (var i = 0; i < loggedData.length; i++) {
+                if (loggedData[i].phone === phone && loggedData[i].password === password) {
+                    // Phone number and password combination is previously used
+                    window.location.href = "MCQ FINAL.html"; // Redirect to another page
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                // Phone number and password combination is not previously used, redirect to WhatsApp chat page
+                var phoneNumber = "917077113049"; // Replace with your phone number (include country code)
+                var message = "Hi, I'm " + name + ". My phone number is " + phone + ". I'd like to login.";
+                var whatsappLink = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
+                window.open(whatsappLink, "_blank");
+                
+                // Store the entered phone number and password in local storage
+                loggedData.push({ phone: phone, password: password });
+                localStorage.setItem("loggedData", JSON.stringify(loggedData));
+            }
+        });
+
+        function isPasswordValid(password) {
+            // Password must contain at least one uppercase letter, one lowercase letter, one number, one symbol, and be at least 8 characters long
+            var uppercaseRegex = /[A-Z]/;
+            var lowercaseRegex = /[a-z]/;
+            var numberRegex = /[0-9]/;
+            var symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+            return password.length >= 8 && uppercaseRegex.test(password) && lowercaseRegex.test(password) && numberRegex.test(password) && symbolRegex.test(password);
+        }
+
+        function displayErrorMessage(message) {
+            document.getElementById("error-message").innerText = message;
+        }
+        
+
+    </script>
+</body>
+</html>

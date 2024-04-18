@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: beige;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #8b0000; /* Brownish maroon color */
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #8b0000; /* Brownish maroon color */
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #8b0000; /* Brownish maroon color */
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #8b0000; /* Brownish maroon color */
+            color: beige;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #800000; /* Darker shade for hover effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name"><br>
+            <label for="phone">Phone Number:</label><br>
+            <input type="text" id="phone" name="phone"><br><br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Retrieve name and phone number from the form
+            var name = document.getElementById("name").value;
+            var phone = document.getElementById("phone").value;
+
+            // Check if name and phone number are not blank
+            if (name.trim() === "" || phone.trim() === "") {
+                alert("Please enter your name and phone number.");
+                return;
+            }
+
+            // Check if the entered phone number has exactly 10 digits
+            if (!(/^\d{10}$/.test(phone))) {
+                alert("Please enter a 10-digit phone number.");
+                return;
+            }
+
+            // Check if the entered phone number matches the WhatsApp number
+            var whatsappNumber = "YOUR_WHATSAPP_NUMBER"; // Replace with your WhatsApp number
+            if (phone !== whatsappNumber) {
+                alert("Please enter your WhatsApp phone number.");
+                return;
+            }
+
+            // Check if the phone number is previously entered
+            var loggedNumbers = JSON.parse(localStorage.getItem("loggedNumbers")) || [];
+            if (loggedNumbers.includes(phone)) {
+                // Phone number is previously entered, redirect to another page
+                window.location.href = "another_page.html"; // Replace with the URL of the other page
+            } else {
+                // Phone number is not previously entered, redirect to your chat page
+                var phoneNumber = "YOUR_PHONE_NUMBER"; // Replace with your phone number (include country code)
+                var message = "Hi, I'm " + name + ". My phone number is " + phone + ". I'd like to login.";
+                var whatsappLink = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+                window.location.href = whatsappLink;
+            }
+
+            // Store the entered phone number in local storage
+            loggedNumbers.push(phone);
+            localStorage.setItem("loggedNumbers", JSON.stringify(loggedNumbers));
+        });
+    </script>
+</body>
+</html>
